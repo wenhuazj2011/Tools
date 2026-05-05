@@ -1,0 +1,166 @@
+根据你的需求（已在 Git Bash 终端 + 已安装 TeX Live），以下是最终完整版配置：
+
+```json
+{
+    "tabnine.experimentalAutoImports": true,
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash",
+            "icon": "terminal-bash"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "window.customTitleBarVisibility": "windowed",
+    
+    // ==================== LaTeX Workshop 配置 ====================
+    // 编译工具链（支持参考文献）
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": ["%DOCFILE%"]
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": ["%DOCFILE%"]
+        }
+    ],
+    
+    // 编译方案（recipes）
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (推荐)",
+            "tools": ["latexmk"]
+        },
+        {
+            "name": "xelatex (中文推荐)",
+            "tools": ["xelatex"]
+        },
+        {
+            "name": "pdflatex",
+            "tools": ["pdflatex"]
+        },
+        {
+            "name": "latexmk (xelatex)",
+            "tools": ["latexmk"]
+        },
+        {
+            "name": "pdflatex -> bibtex -> pdflatex*2 (参考文献)",
+            "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+        },
+        {
+            "name": "xelatex -> biber -> xelatex*2 (参考文献+中文)",
+            "tools": ["xelatex", "biber", "xelatex", "xelatex"]
+        }
+    ],
+    
+    // 默认编译方案
+    "latex-workshop.latex.recipe.default": "latexmk (推荐)",
+    
+    // 自动编译（保存时自动编译）
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    
+    // 自动清理临时文件
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    
+    // PDF 预览（使用内置浏览器）
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.view.pdf.ref.viewer": "auto",
+    
+    // 反向同步（双击 PDF 跳转到源代码）
+    "latex-workshop.view.pdf.external.synctex.args": [
+        "-forward-search",
+        "%TEX%",
+        "%LINE%",
+        "-o",
+        "%PDF%"
+    ],
+    
+    // 启用 LaTeX 格式化
+    "latex-workshop.linting.chktex.enabled": true,
+    
+    // ==================== Python 配置 ====================
+    "python.defaultInterpreterPath": "python",
+    
+    // ==================== C语言配置 ====================
+    "C_Cpp.default.compilerPath": "gcc",
+    "C_Cpp.intelliSenseEngine": "default",
+    
+    // ==================== R语言配置 ====================
+    "r.rterm.windows": "C:\\Program Files\\R\\R-4.3.x\\bin\\R.exe",
+    "r.bracketedPaste": true,
+    
+    // ==================== Stata 配置 ====================
+    "stataRun.stataPath": "C:\\Program Files\\Stata17\\StataMP-64.exe",
+    "stataRun.autoClearConsole": true,
+    
+    // ==================== MATLAB 配置 ====================
+    "matlab.matlabpath": "C:\\Program Files\\MATLAB\\R2024a\\bin\\matlab.exe",
+    "matlab.mlintpath": "C:\\Program Files\\MATLAB\\R2024a\\bin\\win64\\mlint.exe",
+    
+    // ==================== Markdown 配置 ====================
+    "markdown-preview-enhanced.previewTheme": "github-light.css",
+    "markdown-preview-enhanced.breakOnSingleNewLine": false
+}
+```
+
+## 需要根据你的系统调整的路径
+
+请根据你实际安装的路径修改以下配置：
+
+| 配置项 | 典型路径 | 你需要检查的 |
+|--------|----------|-------------|
+| **R语言** | `C:\Program Files\R\R-4.3.x\bin\R.exe` | 查看实际 R 版本号 |
+| **Stata** | `C:\Program Files\Stata17\StataMP-64.exe` | 查看实际 Stata 版本 |
+| **MATLAB** | `C:\Program Files\MATLAB\R2024a\bin\matlab.exe` | 查看实际 MATLAB 版本号 |
+| **mlint** | `C:\Program Files\MATLAB\R2024a\bin\win64\mlint.exe` | 同上 |
+
+如果你不确定这些路径，可以先保留原样，等用到对应语言时遇到错误再回来修改。或者你也可以直接删除这些语言相关的配置（R、Stata、MATLAB），不影响其他功能。
+
+## 配置文件位置
+
+将上述完整内容复制到：`Ctrl + Shift + P` → `Preferences: Open User Settings (JSON)` → 粘贴保存即可。

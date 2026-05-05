@@ -1,0 +1,39 @@
+在 Git Bash 中使用 VS Code 编辑器时，关键是看你**如何打开 VS Code** 的。
+
+---
+
+## 在终端输入 `code .` 或 `code 文件名` 打开的 VS Code
+
+这是最常用的方式。此时 VS Code 作为一个独立窗口程序运行。
+
+### 如何保存文件
+| 操作 | 快捷键 (Windows) | 说明 |
+|------|-----------------|------|
+| 保存当前文件 | `Ctrl + S` | 最常用的保存方式 |
+| 保存所有文件 | `Ctrl + K`，然后按 `S` | 一次性保存所有修改 |
+| 另存为 | `Ctrl + Shift + S` | 保存到新位置 |
+
+**注意**：即使当前焦点在 Git Bash 终端窗口中，直接按 `Ctrl + S` 也会保存 VS Code 编辑器里当前打开的文件，不需要先点击编辑器区域。
+
+---
+
+
+
+## 如果想在 Git Bash 中直接用 `code` 命令打开 VS Code
+
+如果你的 Git Bash 输入 `code` 报错“command not found”，需要先安装 VS Code 的命令行工具：
+
+1. 打开 VS Code
+2. 按 `Ctrl + Shift + P` 打开命令面板
+3. 输入 `Shell Command: Install 'code' command in PATH` 并执行
+
+之后就可以在 Git Bash 中用 `code .` 打开当前目录，或 `code 文件名` 打开指定文件了。
+
+---
+
+## 一分钟速查表
+
+| 你的操作 | 如何保存 |
+|----------|----------|
+| 用 `code` 命令打开 VS Code | 直接按 `Ctrl + S` |
+| 在 VS Code 编辑器中编辑 | 直接按 `Ctrl + S` |
