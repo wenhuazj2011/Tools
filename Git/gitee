@@ -1,0 +1,160 @@
+将本地代码同时推送到 GitHub 和 Gitee 有三种主流方案，按推荐程度排序：
+
+---
+
+## 方案一：配置单远程多推送地址（最推荐 ✅）
+
+这是最优雅的方案——你仍然使用 `git push origin main`，但代码会同时推送到两个平台。
+
+### 操作步骤
+
+```bash
+# 1. 查看当前远程配置
+git remote -v
+
+# 2. 添加第一个推送地址（GitHub）
+git remote set-url --add --push origin git@github.com:用户名/仓库名.git
+
+# 3. 添加第二个推送地址（Gitee）
+git remote set-url --add --push origin git@gitee.com:用户名/仓库名.git
+```
+
+配置完成后，再次查看：
+
+```bash
+git remote -v
+```
+
+你会看到：
+```
+origin  git@github.com:用户名/仓库名.git (fetch)
+origin  git@github.com:用户名/仓库名.git (push)
+origin  git@gitee.com:用户名/仓库名.git (push)
+```
+
+### 日常使用
+
+```bash
+# 一条命令同时推送到 GitHub 和 Gitee
+git push origin main
+
+# 拉取更新（只能从一个源拉取，通常是 GitHub）
+git pull origin main
+```
+
+> **优点**：一次 `git push` 搞定两个平台，不改变日常习惯。
+> **原理**：`--add --push` 给同一个远程名（origin）添加了多个推送地址，但保留单一拉取地址。
+
+---
+
+## 方案二：添加多个独立远程仓库
+
+如果你想把推送和拉取操作分开管理，可以用这种方案。
+
+### 操作步骤
+
+```bash
+# 添加 GitHub 远程
+git remote add github git@github.com:用户名/仓库名.git
+
+# 添加 Gitee 远程
+git remote add gitee git@gitee.com:用户名/仓库名.git
+```
+
+### 日常使用
+
+```bash
+# 分别推送
+git push github main
+git push gitee main
+
+# 或创建脚本批量推送
+```
+
+创建 `push-all.sh` 脚本：
+```bash
+#!/bin/bash
+git push github main
+git push gitee main
+echo "✅ 已推送到所有平台"
+```
+
+```bash
+chmod +x push-all.sh
+./push-all.sh
+```
+
+> **优点**：两个平台完全独立，可以分别拉取更新。
+> **缺点**：需要两次推送命令（或用脚本）。
+
+---
+
+## 方案三：使用自动化工具
+
+如果经常需要多平台同步，可以考虑专用工具。
+
+| 工具 | 特点 | 安装方式 |
+|------|------|----------|
+| **mgit-push** | 一键推送，支持多平台配置 | `npm install -g mgit-push` |
+| **git-multi-sync-tool** | 基于文本配置文件，功能丰富 | `npm install -g git-multi-sync-tool` |
+
+```bash
+# mgit-push 使用示例
+mgit init          # 初始化配置
+mgit push          # 一键推送到所有平台
+
+# git-multi-sync-tool 使用示例
+git-sync init      # 创建配置文件
+git-sync push      # 推送到所有仓库
+```
+
+> **优点**：功能强大，支持状态查看、错误容忍等。
+> **缺点**：需要额外安装工具。
+
+---
+
+## 前置准备：SSH 密钥配置
+
+无论用哪种方案，都需要先在两个平台配置 SSH 公钥。
+
+### 1. 生成 SSH 密钥（如果还没有）
+
+```bash
+ssh-keygen -t ed25519 -C "你的邮箱@example.com"
+```
+
+一路回车即可，密钥默认保存在 `~/.ssh/id_ed25519`。
+
+### 2. 查看并复制公钥
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+### 3. 添加公钥到平台
+
+| 平台 | 设置路径 |
+|------|----------|
+| GitHub | Settings → SSH and GPG keys → New SSH key |
+| Gitee | 设置 → SSH 公钥 → 添加公钥 |
+
+### 4. 测试连接
+
+```bash
+ssh -T git@github.com   # 应显示 "Hi 用户名！"
+ssh -T git@gitee.com    # 应显示 "欢迎使用 Gitee.com！"
+```
+
+> **注意**：如果为 Gitee 生成专门密钥时提示文件已存在，可以用 `-f` 指定文件名：`ssh-keygen -t ed25519 -C "邮箱" -f ~/.ssh/gitee_key`
+
+---
+
+## 快速参考
+
+| 场景 | 推荐方案 |
+|------|----------|
+| **日常开发**，希望一条命令推送 | 方案一（单远程多推送地址） |
+| 需要分别管理两个平台的拉取 | 方案二（多独立远程仓库） |
+| 频繁多平台同步，追求自动化 | 方案三（专用工具） |
+
+> 个人开发者推荐**方案一**，配置一次后使用习惯完全不变。
