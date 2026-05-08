@@ -1,0 +1,47 @@
+要在 VSCode 中高效地使用 Zotero 进行论文写作，核心思路是：**让 Zotero 自动维护一个 `.bib` 文献数据库，然后在 VSCode 中通过快捷键直接调取引用。**
+
+这套方案能让你的文献管理与你的代码、Markdown 笔记无缝衔接，建议从以下几步入手：
+
+### ⚙️ 第一步：环境准备（一次配置，长期使用）
+
+首先需要在 Zotero 中安装一个关键的插件，否则 VSCode 无法直接读取它的数据。
+
+1.  **安装 Better BibTeX**：
+    这是 Zotero 的一个扩展插件。你需要在 Zotero 的"工具" -> "插件"（或直接搜索其官网）中安装并重启。它的核心价值是能为你文献库里的每一篇文献，自动生成一个稳定、可读性高的 ` citation key`（例如 `ahlstrom2024InnovationLargeEstablished`）。
+
+2.  **创建并导出文献库**：
+    *   为了方便写作（比如写一篇关于 DSGE 模型的论文），**建议在 Zotero 中新建一个分类（Collection）**，只把你计划引用的文献都拖进去。
+    *   **右键点击这个分类** -> `导出文献`。
+    *   在导出窗口中，**格式选择 "Better BibTeX"**，并**务必勾选 "保持同步" (Keep updated)** 选项。将它保存为 `reference.bib` 文件，并放在你 VSCode 项目文件夹的根目录下。这样，以后你在 Zotero 里增删文献，VSCode 中的 `.bib` 文件会自动更新。
+
+### 🔌 第二步：VSCode 插件配置（连通的关键）
+
+接下来需要在 VSCode 中安装插件，打通编辑器与 Zotero 的双向通道。
+
+在 VSCode 的扩展商店里，有几个插件值得关注：
+
+| 插件名称 | 核心亮点 | 适用场景 |
+| :--- | :--- | :--- |
+| **Zotero LaTeX** | **功能最全**。直接用 `Alt+Z` 快捷键唤起 Zotero 搜索窗口，像在 Word 里一样选文献就能自动插入 `\cite{citation_key}`。 | **写 LaTeX 论文首选**。 |
+| **CiteZoid** | **轻量通用**。快捷键 `Alt+Shift+Z`，**不仅支持 LaTeX，还能完美支持 Markdown 文件**，插入标准的 `[@citation_key]` Pandoc 格式。 | 如果你常用 Markdown 做笔记、写初稿，这个更合适。 |
+| **VSCode Zotero** | **自动补全**。输入 `@` 符号后会像敲代码一样，自动联想出文献的关键词，或者自动把选中的文献条目添加到你的 `.bib` 文件里。 | 适合喜欢纯键盘流、不想用鼠标选文献的用户。 |
+
+**建议：** 如果你主要写 LaTeX，**Zotero LaTeX** 体验最佳；如果你经常用 Markdown 做文献笔记，**CiteZoid** 更顺手。
+
+### ✍️ 第三步：轻松引用与自动生成文献列表
+
+1.  **插入引用**：
+    在 LaTeX 或 Markdown 文档中，用上面插件的快捷键（`Alt+Z` 或 `Alt+Shift+Z`），就会弹出一个 Zotero 的搜索框。输入作者或标题关键词，回车，引用代码（如 `\cite{ahlstrom2024Innovation}`）就自动插入到光标处了。你也可以直接把 Zotero 中文献的 `citation key` 复制（`Ctrl+Shift+C`）过来。
+
+2.  **生成文献列表**：
+    *   **对于 LaTeX**：在你的 `.tex` 主文件中，别忘了用 `\bibliography{reference}` 指定你之前导出的 `.bib` 文件。编译文档时，所有被 `\cite{}` 过的文献就会自动出现在这里。
+    *   **对于 Markdown**：如果你在文件头部加入 YAML Front Matter 并指定了 bibliography 文件，配合 Pandoc 编译，同样可以自动生成。
+
+### 🔍 进阶技巧：AI 赋能文献精读
+
+既然你已经配置好了 Cline + DeepSeek，可以让 AI 帮你深度处理这些文献：
+
+*   **笔记辅助**：可以利用 Zotenote 这类插件，从 Zotero 抓取文献的元数据（标题、摘要），自动生成带格式的文献笔记 `.md` 文件。
+*   **智能审稿**：参考浙江大学讲座提到的趋势，你可以把 Zotero 里下载的 PDF 原文路径交给 Cline，让它帮你总结核心论点、提炼实证策略，真正实现用 AI 辅助你进行“文献审稿”。
+
+最后总结一下，这套流程会让你在 VSCode 中写论文时，再也不用中断思路去手动敲 `\cite{...}` 了。如果对某个插件的安装或配置细节有疑问，随时可以继续问我。

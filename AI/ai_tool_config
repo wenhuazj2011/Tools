@@ -1,0 +1,65 @@
+**不能直接在 VS Code 里使用，但你可以用它搭配 VS Code 插件来增强编程能力。**
+
+---
+
+## 一、Cherry Studio 是什么？
+
+Cherry Studio 是一款**独立的桌面 AI 客户端**（支持 Windows、Mac、Linux），不是 VS Code 插件。
+
+它的主要功能是：
+- 同时接入多个 AI 模型（DeepSeek、OpenAI、Gemini 等）
+- 提供对话界面、知识库管理、联网搜索等功能
+- 可以本地部署，数据更安全
+
+**你需要下载安装 Cherry Studio 作为独立软件使用，而不是在 VS Code 里安装。**
+
+---
+
+## 二、那怎么在 VS Code 里用 DeepSeek API？
+
+虽然 Cherry Studio 不能直接集成到 VS Code，但你可以用 **Cline**（原名 Roo Cline）这个 VS Code 插件来调用 DeepSeek API 辅助编程。
+
+### 配置步骤
+
+**1. 安装 Cline 插件**
+
+在 VS Code 扩展商店搜索 `Cline`，点击安装。
+
+安装后左侧会出现一个小机器人图标。
+
+**2. 获取 DeepSeek API Key**
+
+- 去 DeepSeek 官网或 API 服务商（如华为云 MaaS、SiliconFlow 等）申请 API Key
+- 记录下 API 地址和模型名称（如 `deepseek-chat` 或 `deepseek-ai/DeepSeek-V2`）
+
+**3. 在 Cline 中配置**
+
+点击 VS Code 左侧的 Cline 图标 → 点击右上角齿轮图标进入设置：
+
+| 配置项 | 填写内容 |
+| :--- | :--- |
+| API Provider | 选择 `OpenAI Compatible` |
+| Base URL | 填写你的 API 地址（去掉结尾的 `/chat/completions`） |
+| API Key | 粘贴你申请的 API Key |
+| Model ID | 填写模型名称（如 `deepseek-chat`） |
+
+配置完成后，你就可以在 VS Code 里和 DeepSeek 对话，让它帮你写代码、解释逻辑、Debug 了。
+
+---
+
+## 三、你的完整 AI 工具配置建议
+
+结合你的经济学研究（MATLAB、Dynare、Stata、R、Python），推荐这样搭配：
+
+| 工具 | 用途 | 是否在 VS Code 内 |
+| :--- | :--- | :--- |
+| **GitHub Copilot** | 代码自动补全 | ✅ 是 |
+| **Cline + DeepSeek API** | 代码解释、调试、复杂问题推理 | ✅ 是 |
+| **Cherry Studio + DeepSeek API** | 独立对话、知识库管理、长文档处理 | ❌ 否（独立软件） |
+
+**日常工作流**：
+1. 写代码时用 **Copilot** 自动补全
+2. 遇到复杂问题（比如解释 Dynare 输出、推导模型公式）时，在 VS Code 里用 **Cline + DeepSeek** 提问
+3. 需要处理长文档或构建知识库时，打开独立的 **Cherry Studio** 使用
+
+这样三个工具各司其职，而且 DeepSeek API 只付一份钱，三个地方都能用。
